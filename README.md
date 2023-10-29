@@ -1,66 +1,52 @@
-## Foundry
+## README
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+### 執行說明
 
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```bash
+git clone https://github.com/tannerang/USDCRugPullTest.git
 ```
 
-### Test
-
-```shell
-$ forge test
+```bash
+cd USDCRugPullTest
 ```
 
-### Format
-
-```shell
-$ forge fmt
+```bash
+forge test 
 ```
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
+```bash
+# foundry.toml config changes as follow
+auto_detect_solc = true
 ```
 
-### Anvil
+### 測試個案說明
 
-```shell
-$ anvil
 ```
+testUpgradeToV3
+    說明：
+        測試 UpgradeTo 是否成功升級
 
-### Deploy
+testAddWhitelist
+    說明：
+        測試 whitelistOwner 可以將任意 user 加入 whitelist，其他角色則無法
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+testCanTransferIfInWhitelist
+    說明：
+        測試被加入 whitelist 的 user 可以成功執行 transfer 
 
-### Cast
+testCannotTransferIfNotInWhitelist
+    說明：
+        測試沒有被加入 whitelist 的 user 不能執行 transfer 
 
-```shell
-$ cast <subcommand>
-```
+testCanMintInfinitelyIfInWhitelist
+    說明：
+        測試被加入 whitelist 的 user 可以無限制的 mint USDC token
 
-### Help
+(自行增加)testRugBlacklistedAccountIfIsBlacklister
+    說明：
+        測試 Blacklister 角色可以對指定 BlacklistedAccount 執行 rugBlacklist，將其全部的 USDC 轉到 Blacklister 手上
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+(自行增加)testCannotRugBlacklistedAccountIfNotBlacklister
+    說明：
+        測試非 Blacklister 角色無法對指定 BlacklistedAccount 執行 rugBlacklist
 ```
